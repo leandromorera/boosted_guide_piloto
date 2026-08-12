@@ -1,8 +1,12 @@
 name: ci
+
+# Se ejecuta en cada PR contra la rama de integracion de un run y contra main. Es la puerta: sin
+# esto en verde no entra nada.
 on:
   pull_request:
   push:
     branches: [main]
+
 jobs:
   pruebas:
     runs-on: ubuntu-latest
@@ -11,4 +15,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python -c "print('sin nada que probar todavia')"
+      - name: Dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Analisis estatico
+        run: |
+          pip install ruff
+          ruff check .
+      - name: Pruebas
+        # El mismo comando que ejecuta el tester del pipeline, leido del mismo sitio: boosted.toml.
+        run: pytest -q
