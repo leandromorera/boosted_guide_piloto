@@ -1,0 +1,14 @@
+# Configuracion que comparten el pipeline y la CI. Un solo sitio, o los verdes dejan de significar
+# lo mismo en cada lado.
+
+[proyecto]
+nombre = "boosted_guide_piloto"
+tipo = "api"
+
+[pruebas]
+comando = "pytest -q"
+
+[contratos]
+# Ficheros que importan varios y que ninguna tarea puede modificar. Salen de la particion del
+# esquema del proyecto, no de una lista escrita a mano.
+ficheros = ["app/db.py", "app/models.py"]
