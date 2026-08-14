@@ -1,5 +1,11 @@
 """Agenda de contactos en memoria."""
-from contact_book.validation import validate_email
+import re
+
+_EMAIL_RE = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
+
+
+def validate_email(email):
+    return bool(_EMAIL_RE.match(email)) if isinstance(email, str) else False
 
 
 class ContactBook:
